@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotarm</title>
+    
+    <!-- Add any additional CSS or CDN links here, for example Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Add your navigation bar or header here if needed -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Robotarm</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/output">output</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/upload">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cam_feed">cam</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <h1>input</h1>
+        <div class="image-box">
+            <div class="svg-container">
+                <img src="{{ url_for('static', filename=saved_image) }}" alt="ga naar cam en maak een foto om een input te krijgen">
+            </div>
+        </div>
+        </div>
+    <div class="container">
+        <h1>Output</h1>
+        <ul>
+            {% for item in output %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Image</h1>
+        <div class="image-box">
+            <div class="svg-container">
+                <img src="{{ url_for('static', filename=svg_svg) }}" alt="SVG Image" class="svg-object">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

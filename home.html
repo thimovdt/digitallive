@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotarm</title>
+    
+    <!-- Add any additional CSS or CDN links here, for example Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Add your navigation bar or header here if needed -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Robotarm</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/output">output</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/upload">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cam_feed">cam</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h2 class="center">Categories Info</h2>
+    <div class="table-container center">
+        {% if categories_info.not_in_model %}
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ categories_info.not_in_model }}</td>
+                    </tr>
+                </thead>
+            </table>
+        {% elif all_in_model %}
+            {% if all_in_model and no_duplicates %}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>All {{len_categories}} categories are present in the model and no duplicate categories were found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% elif all_in_model %}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>All {{len_categories}} categories are present in the model</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+        {% endif %}
+    </div>
+    
+    <div class="table-container center">
+        {% if categories_info.duplicates %}
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ categories_info.duplicates }}</td>
+                    </tr>
+                </thead>
+            </table>
+        {% elif not all_in_model and no_duplicates%}
+            <p><strong>No duplicate categories were found</strong></p>
+        {% endif %}
+    </div>
+
+    <h2 class="center">Renamed Directories</h2>
+    <div class="table-container center">
+        <table class="styled-table left">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    {% for index in index_numbers %}
+                        <td>{{index}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Original Category</th>
+                    {% for directory in renamed_directories %}
+                        <td>{{ directory[0] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Modified to</th>
+                    {% for directory in renamed_directories %}
+                        <td>{{ directory[1] }}</td>
+                    {% endfor %}
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <h2 class="center">added Directories</h2>
+    <div class="table-container center">
+        <table class="styled-table left">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    {% for index in index_numbers_added %}
+                        <td>{{index}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Original Category</th>
+                    {% for directory in added_info %}
+                        <td>{{ directory[0] }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Modified to</th>
+                    {% for directory in added_info %}
+                        <td>{{ directory[1] }}</td>
+                    {% endfor %}
+                </tr>
+            </thead>
+        </table>
+    </div>
+    
+    <h2 class="center">Directories that were not found</h2>
+    <div class="table-container center">
+        {% if all_directories_found %}
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>All directories were found</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% else %}
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <td>Not Found</td>
+                        <th>Directory</th>
+                        {% for directory in not_found_directories %}
+                        <tr>
+                            <td>{{ directory }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tr>
+                </thead>
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
